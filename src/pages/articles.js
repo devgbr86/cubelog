@@ -1,5 +1,5 @@
-import { parseMarkdown }                       from "../lib/marked.js"
-import { posts, fetchArticle, searchArticles } from "../services/articleService.js"
+import { parseMarkdown }                       from "../marked.js"
+import { posts, fetchArticle, searchArticles } from "../articleService.js"
 
 function highlight(text, term) {
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
