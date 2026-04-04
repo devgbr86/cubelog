@@ -76,14 +76,14 @@ export async function render(slug) {
 
   app.innerHTML = `
     <div class="articles-header">
-      <h1>Artigos</h1>
+      <h1>Guias e tutoriais para DEVs</h1>
     </div>
 
     <div class="search-bar">
       <input
         type="text"
         id="search-input"
-        placeholder="🔍 Buscar nos artigos…"
+        placeholder="🔍 Buscar Pesquisar…"
         autocomplete="off"
         spellcheck="false"
       />
@@ -157,7 +157,7 @@ export async function render(slug) {
     await loadArticle(slug)
   } else {
     document.getElementById("article-view").innerHTML = `
-      <p class="article-placeholder">© Aura Code</p>
+      <p class="article-placeholder">© Script PRO</p>
     `
   }
 }
