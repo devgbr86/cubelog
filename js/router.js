@@ -14,10 +14,8 @@ const BASE = detectBase();
 window.__router__ = { BASE };
 
 const routes = {
-  "/":        { file: "markdown/pages/home.md",    type: "home" },
-  "/blog":    { file: null,                         type: "blog" },
-  "/kits":    { file: "markdown/pages/kits.md",    type: "page" },
-  "/legal": { file: "markdown/pages/legal.md", type: "page" },
+  "/":     { type: "home" },
+  "/kits": { type: "kits" },
 };
 
 function resolveRoute(path) {
@@ -28,5 +26,5 @@ function resolveRoute(path) {
 
   if (routes[p]) return routes[p];
 
-  return { file: null, type: "not-found" };
+  return { type: "not-found" };
 }

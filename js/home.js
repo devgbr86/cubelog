@@ -40,6 +40,7 @@ async function loadMarkdown(filePath) {
 }
 
 // ─── CARREGA LISTA DE ARTIGOS ─────────────────────────────
+// articles.json fica em js/articles.json (mesmo lugar de antes)
 
 async function loadArticles() {
   const { BASE } = window.__router__ || { BASE: "" };
@@ -55,6 +56,7 @@ async function loadArticles() {
 }
 
 // ─── PRÉ-CARREGA CONTEÚDO DOS ARTIGOS PARA BUSCA ─────────
+// Artigos ficam em /articles/<slug>.md (raiz do projeto)
 
 async function preloadArticleContents() {
   const { BASE } = window.__router__ || { BASE: "" };
@@ -63,7 +65,7 @@ async function preloadArticleContents() {
     articles.map(async (a) => {
       if (articleContentCache[a.slug] !== undefined) return;
       try {
-        const res = await fetch(`${prefix}markdown/articles/${a.slug}.md`);
+        const res = await fetch(`${prefix}articles/${a.slug}.md`);
         if (!res.ok) { articleContentCache[a.slug] = ""; return; }
         const raw = await res.text();
         const { body } = parseFrontmatter(raw);
@@ -75,7 +77,7 @@ async function preloadArticleContents() {
   );
 }
 
-// ─── RENDER BLOG (lista + pesquisa) ──────────────────────
+// ─── RENDER HOME (lista de artigos + pesquisa) ───────────
 
 function renderArticleList(filter = "") {
   const q = filter.toLowerCase().trim();
@@ -96,16 +98,23 @@ function renderArticleList(filter = "") {
 
   return `<ul class="article-list">${filtered.map((a) => `
     <li>
-      <a href="#" data-article="${a.slug}">${a.title}</a>
-      ${a.description ? `<p class="article-description">${a.description}</p>` : ""}
+      <div class="article-list-main">
+        <a href="#" data-article="${a.slug}">${a.title}</a>
+        ${a.description ? `<p class="article-description">${a.description}</p>` : ""}
+      </div>
       <span>${a.date}</span>
     </li>
   `).join("")}</ul>`;
 }
 
-function renderBlog() {
-  document.title = "Blog | ScriptPRO";
+function renderHome() {
+  document.title = "ScriptPRO";
   app.innerHTML = `
+    <section class="home-intro">
+      <h1 class="home-title">ScriptPRO</h1>
+      <p class="home-subtitle">Conteúdo front-end — focado em quem já sabe o básico e quer ir mais fundo.</p>
+    </section>
+
     <section class="articles-section">
       <h2>Artigos</h2>
       <input
@@ -133,6 +142,7 @@ function renderBlog() {
 }
 
 // ─── RENDER ARTIGO ────────────────────────────────────────
+// Carrega de /articles/<slug>.md
 
 async function openArticle(slug) {
   const { BASE } = window.__router__ || { BASE: "" };
@@ -140,7 +150,7 @@ async function openArticle(slug) {
 
   renderLoading();
 
-  const data = await loadMarkdown(`${prefix}markdown/articles/${slug}.md`);
+  const data = await loadMarkdown(`${prefix}articles/${slug}.md`);
   if (!data) {
     renderNotFound();
     return;
@@ -149,27 +159,22 @@ async function openArticle(slug) {
   app.innerHTML = `
     <article class="markdown-body">${data.html}</article>
     <div class="back-link-wrap">
-      <a href="#" id="back-to-blog">← Voltar para blog</a>
+      <a href="#" id="back-to-home">← Voltar</a>
     </div>
   `;
 
   if (data.meta.title) document.title = data.meta.title + " | ScriptPRO";
 
-  document.getElementById("back-to-blog").onclick = (e) => {
+  document.getElementById("back-to-home").onclick = (e) => {
     e.preventDefault();
-    navigate("/blog");
+    navigate("/");
   };
 
-  updateNavActive("/blog");
+  updateNavActive("/");
   window.scrollTo(0, 0);
 }
 
-// ─── RENDER PAGE (markdown) ───────────────────────────────
-
-function renderPage(data) {
-  app.innerHTML = `<article class="markdown-body">${data.html}</article>`;
-  if (data.meta.title) document.title = data.meta.title + " | ScriptPRO";
-}
+// ─── ESTADOS GLOBAIS ──────────────────────────────────────
 
 function renderNotFound() {
   app.innerHTML = `
@@ -198,31 +203,20 @@ function updateNavActive(path) {
 // ─── NAVIGATE ─────────────────────────────────────────────
 
 async function navigate(path) {
+  const { type } = resolveRoute(path);
   updateNavActive(path);
 
-  const { file, type } = resolveRoute(path);
-
-  if (type === "not-found") {
-    renderNotFound();
+  if (type === "home") {
+    renderHome();
     return;
   }
 
-  if (type === "blog") {
-    renderBlog();
+  if (type === "kits") {
+    renderKits();
     return;
   }
 
-  renderLoading();
-
-  const data = await loadMarkdown(file);
-  if (!data) {
-    renderNotFound();
-    return;
-  }
-
-  renderPage(data);
-  bindLinks();
-  window.scrollTo(0, 0);
+  renderNotFound();
 }
 
 // ─── LINKS ────────────────────────────────────────────────
@@ -252,4 +246,7 @@ function bindArticleLinks() {
 window.addEventListener("popstate", () => navigate(window.location.pathname));
 bindLinks();
 
-loadArticles().then(() => navigate(window.location.pathname));
+loadArticles().then(() => {
+  navigate(window.location.pathname);
+  renderFooter(); // footer sempre presente
+});
