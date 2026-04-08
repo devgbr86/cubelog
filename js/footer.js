@@ -110,9 +110,7 @@ function showLegal() {
       <hr>
       <p><em>© 2026 Fyregrid — Todos os direitos reservados.</em></p>
 
-      <div class="back-link-wrap">
-        <a href="#" id="back-from-legal">← Voltar</a>
-      </div>
+     
     </div>
   `;
 

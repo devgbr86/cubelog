@@ -34,7 +34,7 @@ function renderKits() {
       <p>Os primeiros kits estão sendo finalizados. Se quiser ser avisado quando sair:</p>
 
       <div class="kits-contact">
-        <a href="https://wa.me/5531996981103" target="_blank" rel="noopener" class="kits-cta">
+        <a href="https://wa.me/5531996981103" target="_blank" rel="noopener" class="kits-cta kits-cta--secondary">
           WhatsApp · (31) 99698-1103
         </a>
         <a href="mailto:topverbs@gmail.com" class="kits-cta kits-cta--secondary">
