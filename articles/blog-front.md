@@ -1,169 +1,40 @@
 # Criando um Blog Totalmente Front-end com JavaScript, Marked.js e GitHub Pages
 
-Este artigo descreve a construção de um blog estático, leve e funcional usando apenas tecnologias front-end: JavaScript puro para a lógica de navegação, Marked.js para renderização de Markdown no navegador, e GitHub Pages para hospedagem gratuita.
+Este artigo detalha a construção de um blog estático, leve e funcional, utilizando exclusivamente tecnologias front-end. A lógica de navegação é implementada com JavaScript puro, enquanto o Marked.js se encarrega da renderização de conteúdo Markdown diretamente no navegador. A hospedagem é feita de forma gratuita através do GitHub Pages.
 
-A proposta é intencional: sem geradores de site estático, sem build steps, sem dependências de servidor. O conteúdo vive em arquivos `.md`, e o navegador faz todo o trabalho.
+A proposta central é intencional: criar um blog sem a necessidade de geradores de site estático, etapas de build complexas ou dependências de servidor. O conteúdo é armazenado em arquivos `.md` simples, e todo o processamento é realizado pelo navegador do usuário.
 
----
+## Estrutura Essencial do Projeto
 
-## Estrutura do Projeto
+O projeto é organizado de maneira direta para facilitar a manutenção e a adição de novos conteúdos. A estrutura de diretórios é clara e funcional.
 
-```
-.
-├── index.html
-├── articles/
-│   ├── post-01.md
-│   └── post-02.md
-├── js/
-│   └── app.js
-└── css/
-    ├── styles.css
-    └── markdown.css
-```
+- O arquivo `index.html` serve como o único ponto de entrada da aplicação. Ele é responsável por carregar os estilos visuais, o Marked.js (via CDN) e o script principal `app.js`.
+- O diretório `articles/` é dedicado ao armazenamento dos posts do blog. Cada post é um arquivo Markdown individual, o que torna a adição de um novo conteúdo tão simples quanto criar um novo arquivo `.md`.
+- O arquivo `js/app.js` constitui o coração da aplicação. Ele gerencia a busca dos arquivos de conteúdo, a renderização dinâmica e o controle da navegação entre os posts.
+- Na pasta `css/`, `styles.css` define o layout geral do blog, enquanto `markdown.css` é responsável pela tipografia e pela aparência do conteúdo renderizado a partir do Markdown.
 
-- `index.html` é o único ponto de entrada. Carrega os estilos, o Marked.js via CDN e o `app.js`.
-- `articles/` armazena os posts como arquivos Markdown individuais. Adicionar um novo post é tão simples quanto criar um novo `.md`.
-- `js/app.js` é o núcleo da aplicação: busca os arquivos, renderiza o conteúdo e controla a navegação.
-- `css/styles.css` define o layout geral. `css/markdown.css` cuida da tipografia e aparência do conteúdo renderizado.
+## O Coração do Blog: `index.html`
 
----
+O `index.html` é a base estrutural do blog. Ele inclui os metadados essenciais, os links para as folhas de estilo e a área principal onde o conteúdo será exibido. O Marked.js é carregado de um CDN, garantindo que a biblioteca esteja disponível para a conversão de Markdown para HTML. O elemento `<main id="content">` é o contêiner dinâmico onde todos os posts serão injetados.
 
-## O `index.html`
+## A Lógica de Navegação em `app.js`
 
-```html
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Blog</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/markdown.css">
-</head>
-<body>
-  <header>
-    <h1>Meu Blog</h1>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#about">Sobre</a>
-    </nav>
-  </header>
+O arquivo `app.js` é o motor que impulsiona a interatividade do blog. A navegação é controlada pela hash da URL (`window.location.hash`), permitindo que diferentes posts sejam carregados sem a necessidade de recarregar a página inteira. A função `loadMarkdown` utiliza `fetch` para buscar assincronamente o arquivo `.md` correspondente. Em seguida, `marked.parse()` converte o conteúdo Markdown em HTML, que é então inserido dinamicamente no DOM.
 
-  <main id="content"></main>
+Para criar um link para um post específico, basta usar a estrutura de âncora com a hash apropriada, como por exemplo, `Ler segundo post`.
 
-  <footer>
-    <p>&copy; 2024 Meu Blog</p>
-  </footer>
+## Criando Novos Posts
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="js/app.js"></script>
-</body>
-</html>
-```
+Cada novo post é um arquivo `.md` que deve ser colocado dentro do diretório `articles/`. A simplicidade é a chave: basta criar o arquivo com o conteúdo em Markdown e, em seguida, criar um link para ele usando a navegação baseada em hash. O Marked.js cuidará da renderização de todos os elementos Markdown, incluindo títulos, parágrafos, listas e até mesmo blocos de código, que serão formatados conforme o `markdown.css`.
 
-O Marked.js é carregado via CDN do jsDelivr. O elemento `<main id="content">` é onde todo o conteúdo dos posts será injetado dinamicamente.
+## Publicando com GitHub Pages
 
----
+O deploy do blog é um processo simplificado, aproveitando a funcionalidade gratuita do GitHub Pages. Primeiro, cria-se um repositório público no GitHub. Em seguida, inicializa-se o repositório localmente, adiciona-se os arquivos do projeto e realiza-se o primeiro commit. Após configurar o repositório remoto, o código é enviado para o GitHub.
 
-## A Lógica em `app.js`
-
-```javascript
-document.addEventListener('DOMContentLoaded', () => {
-  const contentDiv = document.getElementById('content');
-
-  async function loadMarkdown(filename) {
-    try {
-      const response = await fetch(`articles/${filename}`);
-
-      if (!response.ok) {
-        throw new Error(`Arquivo não encontrado: ${filename}`);
-      }
-
-      const text = await response.text();
-      contentDiv.innerHTML = marked.parse(text);
-      contentDiv.className = 'markdown-body';
-    } catch (error) {
-      contentDiv.innerHTML = '<p>Erro ao carregar o conteúdo.</p>';
-      console.error(error);
-    }
-  }
-
-  function handleNavigation() {
-    const hash = window.location.hash.replace('#', '');
-
-    if (!hash || hash === 'home') {
-      loadMarkdown('post-01.md');
-    } else if (hash === 'about') {
-      contentDiv.innerHTML = '<h2>Sobre</h2><p>Um blog estático feito com JavaScript e Marked.js.</p>';
-    } else if (hash.startsWith('post/')) {
-      const slug = hash.split('/')[1];
-      loadMarkdown(`${slug}.md`);
-    } else {
-      contentDiv.innerHTML = '<h2>Página não encontrada</h2>';
-    }
-  }
-
-  window.addEventListener('hashchange', handleNavigation);
-  handleNavigation();
-});
-```
-
-A navegação é baseada na hash da URL (`window.location.hash`). Isso permite que diferentes posts sejam carregados sem recarregar a página. O `fetch` busca o arquivo `.md` correspondente de forma assíncrona, e `marked.parse()` converte o Markdown em HTML antes de injetá-lo no DOM.
-
-Para criar um link para um post específico no HTML, basta usar:
-
-```html
-<a href="#post/post-02">Ler segundo post</a>
-```
-
----
-
-## Criando Posts
-
-Cada post é um arquivo `.md` dentro de `articles/`. Exemplo de `articles/post-01.md`:
-
-```markdown
-# Título do Post
-
-Introdução do post em **Markdown** simples.
-
-## Uma Seção
-
-Conteúdo com listas, links, blocos de código — tudo funciona.
-
-```javascript
-function hello(name) {
-  return `Olá, ${name}!`;
-}
-```
-
-Para publicar um novo artigo, basta criar o arquivo e linkar para ele via hash.
-```
-
----
-
-## Deploy com GitHub Pages
-
-1. Crie um repositório público no GitHub (por exemplo, `meu-blog`).
-
-2. No diretório do projeto, inicialize o repositório e faça o primeiro commit:
-
-```bash
-git init
-git add .
-git commit -m "estrutura inicial do blog"
-git remote add origin https://github.com/SEU_USUARIO/meu-blog.git
-git push -u origin main
-```
-
-3. No repositório do GitHub, vá em **Settings > Pages**, selecione o branch `main` como fonte e salve.
-
-Após alguns minutos, o blog estará disponível em `https://SEU_USUARIO.github.io/meu-blog/`. Qualquer push para o branch configurado atualiza o site automaticamente.
-
----
+Nas configurações do repositório no GitHub, na seção **Settings > Pages**, seleciona-se o branch `main` como a fonte para a publicação. Em poucos minutos, o blog estará acessível através de uma URL fornecida pelo GitHub Pages, como `https://SEU_USUARIO.github.io/meu-blog/`. Qualquer push subsequente para o branch configurado resultará em uma atualização automática do site.
 
 ## Considerações Finais
 
-Essa abordagem funciona bem para blogs pessoais, portfólios e documentações simples. As limitações são claras: não há busca server-side, sem geração de feeds RSS automáticos, e o navegador precisa de acesso à rede para buscar cada `.md` via `fetch`.
+Esta abordagem é particularmente eficaz para blogs pessoais, portfólios e documentações que não exigem funcionalidades complexas. As limitações incluem a ausência de busca server-side e a não geração automática de feeds RSS. Além disso, o navegador precisa de acesso à rede para buscar cada arquivo `.md` via `fetch`.
 
-Para escalar além disso, vale considerar ferramentas como Eleventy ou Astro, que pre-renderizam o HTML em build time. Mas para o caso de uso proposto aqui, a solução é suficiente, direta e sem overhead.
+Para projetos que demandam maior escalabilidade ou funcionalidades avançadas, ferramentas como Eleventy ou Astro, que realizam a pré-renderização do HTML em tempo de build, podem ser mais adequadas. No entanto, para o propósito de um blog simples e direto, a solução apresentada é eficiente e sem overhead desnecessário.
