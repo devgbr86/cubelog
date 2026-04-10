@@ -1,4 +1,25 @@
 [
+   {
+    "slug": "coffee-history",
+    "title": "☕ História do Café",
+    "date": "2026-04",
+    "tags": ["cafe", "dev", "code"],
+    "description": "As evidências históricas e botânicas apontam para a região de Kaffa, na Etiópia, como centro de origem da espécie Coffea arabica."
+  },
+   {
+    "slug": "coffee-species",
+    "title": "Espécies de Café",
+    "date": "2026-04",
+    "tags": ["cafe", "dev", "code"],
+    "description": "O café compreende plantas do gênero Coffea, pertencente à família Rubiaceae, ordem Gentianales."
+  },
+   {
+    "slug": "coffee-nutrition",
+    "title": "Composição Nutricional e Efeitos Fisiológicos do Café",
+    "date": "2026-04",
+    "tags": ["dev", "cafe", "code"],
+    "description": "O café constitui uma das bebidas mais consumidas globalmente, com estimativas de consumo superior a 2,25 bilhões de xícaras diárias."
+  },
   {
     "slug": "micro-features",
     "title": "Arquitetura Baseada em Funcionalidades, Escalabilidade e Manutenibilidade",
