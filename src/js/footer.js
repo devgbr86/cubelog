@@ -17,8 +17,7 @@ function renderFooter() {
       <div class="footer-col">
         <span class="footer-col-title">Contato</span>
         <a href="mailto:topverbs@gmail.com">topverbs@gmail.com</a>
-        <a href="https://github.com/fyregrid" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://linkedin.com/in/gribeirodev" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://fyregrid.github.io/bio" target="_blank" rel="noopener">fyregrid.github.io/bio</a>
       </div>
     </div>
     <div class="footer-bottom">
