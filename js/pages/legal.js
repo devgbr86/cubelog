@@ -9,7 +9,7 @@ function showLegal() {
   const app = document.getElementById("app");
   app.innerHTML = `
     <div class="legal-wrap markdown-body">
-      <a href="/blog/" id="back-from-legal" class="back-link">← Voltar</a>
+      <a href="${BASE}/" id="back-from-legal" class="back-link">← Voltar</a>
 
       <h1>Documentos Legais — grcodev/blog</h1>
       <blockquote>

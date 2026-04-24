@@ -35,6 +35,15 @@ function resolveRoute(path) {
     }
   }
 
+  // Redireciona rotas antigas /post/ para /p/ (backward compat)
+  if (path.startsWith('/post/')) {
+    const slug = path.slice('/post/'.length);
+    if (slug) {
+      navigate('/p/' + slug, { replace: true });
+      return;
+    }
+  }
+
   if (path === '/legal') {
     showLegal();
     return;

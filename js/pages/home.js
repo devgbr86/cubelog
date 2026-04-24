@@ -21,7 +21,7 @@ function renderArticleList(filter = "") {
   return `<ul class="article-list">${filtered.map((a) => `
     <li>
       <div class="article-list-main">
-        <a href="/blog/p/${a.slug}" data-article="${a.slug}">${a.title}</a>
+        <a href="${BASE}/p/${a.slug}" data-article="${a.slug}">${a.title}</a>
         ${a.description ? `<p class="article-description">${a.description}</p>` : ""}
       </div>
       <span>${a.date}</span>

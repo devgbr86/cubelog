@@ -42,7 +42,7 @@ async function preloadArticleContents() {
 // ─── RENDER ARTIGO ────────────────────────────────────────
 
 async function openArticle(slug) {
-  currentView = { slug };
+  currentView = "article:" + slug;
   renderLoading();
 
   const data = await loadMarkdown(BASE + `/articles/${slug}.md`);
@@ -53,7 +53,7 @@ async function openArticle(slug) {
 
   document.getElementById("app").innerHTML = `
     <article class="markdown-body">
-      <a href="/blog/" id="back-btn" class="back-link">← Voltar</a>
+      <a href="${BASE}/" id="back-btn" class="back-link">← Voltar</a>
       ${data.html}
     </article>
   `;
@@ -102,9 +102,8 @@ function renderFooter() {
 
 // ─── INIT ─────────────────────────────────────────────────
 
-bindLinks();
-
 loadArticles().then(() => {
+  bindLinks();
   initRouter();
   renderFooter();
 });
