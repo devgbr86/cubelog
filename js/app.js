@@ -90,8 +90,7 @@ function renderFooter() {
     </div>
     <div class="footer-bottom">
       <span>© grcodev/blog</span>
-      <a href="/blog/legal" id="footer-legal-link">Privacidade e Termos</a>
-    </div>
+<a href="${BASE}/legal" id="footer-legal-link">Privacidade e Termos</a>    </div>
   `;
 
   document.getElementById("footer-legal-link").onclick = (e) => {

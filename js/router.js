@@ -1,6 +1,10 @@
 // router.js
 
-const BASE = location.hostname === '127.0.0.1' || location.hostname === 'localhost'
+const BASE = (
+  location.hostname === '127.0.0.1' ||
+  location.hostname === 'localhost' ||
+  location.hostname.endsWith('.pages.dev')          // ← Cloudflare Pages
+)
   ? ''
   : '/blog';
 
