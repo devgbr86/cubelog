@@ -63,7 +63,7 @@ async function openArticle(slug) {
     navigate('/');
   };
 
-  if (data.meta.title) document.title = data.meta.title + " | grcodev/blog";
+  if (data.meta.title) document.title = data.meta.title + " | " + CONFIG.siteName;
   updateNavActive();
   window.scrollTo(0, 0);
 }

@@ -1,9 +1,5 @@
 // router.js
 
-const BASE = location.hostname === '127.0.0.1' || location.hostname === 'localhost'
-  ? ''
-  : '/blog';
-
 // ─── NAVIGATE ────────────────────────────────────────────
 
 function navigate(path, { replace = false } = {}) {
