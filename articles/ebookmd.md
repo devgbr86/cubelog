@@ -1,18 +1,18 @@
 # Aprenda a criar Livros/EBooks profissionais usando Markdown + Pandoc
 
 
-<img src="https://github.com/grcodev/grcodev/releases/download/vault/mdbook.png" width="24%" height="24%" style="border-radius:2%;" />
 
-
-
-
-## Escreva uma vez. Publique em vários formatos.
 
 Aprenda um fluxo prático para transformar texto simples em conteúdo profissional usando Markdown, Visual Studio Code e Pandoc. Este eBook foi criado para quem deseja produzir documentação, artigos, eBooks, PDFs e arquivos EPUB com rapidez, organização e independência de plataformas complexas. Ideal para estudantes, programadores, criadores de conteúdo, freelancers e pessoas que valorizam produtividade.
 
 
 
-# Chapters
+
+<img src="https://github.com/grcodev/grcodev/releases/download/vault/mdbook.png" width="24%" height="24%" style="border-radius:2%;" />
+
+
+
+
 
 ## Chapter 01 — Introdução ao Markdown
 
@@ -122,7 +122,7 @@ Inclui:
 
 
 
-# Para Quem é Este eBook
+## Para Quem é Este eBook
 
 - Iniciantes em Markdown
 - Usuários de VS Code
@@ -134,7 +134,7 @@ Inclui:
 
 
 
-# Resultado Final
+## Resultado Final
 
 Ao concluir este material, você será capaz de:
 
@@ -147,7 +147,7 @@ Ao concluir este material, você será capaz de:
 
 
 
-# Simples, direto e útil.
+## Simples, direto e útil.
 
 Menos ferramentas pesadas. Mais produção.
 
